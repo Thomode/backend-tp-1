@@ -1,7 +1,10 @@
 package com.example.backendtp1.services;
 
+import com.example.backendtp1.dtos.AlquilerDTO;
 import com.example.backendtp1.entities.Alquiler;
 
-public interface AlquilerService extends Service<Alquiler, Long> {
+public interface AlquilerService extends Service<Alquiler, Integer> {
+    Alquiler iniciarAlquiler(int idEstacionRetiro);
 
+    Alquiler finalizarAlquiler(AlquilerDTO alquilerDTO);
 }

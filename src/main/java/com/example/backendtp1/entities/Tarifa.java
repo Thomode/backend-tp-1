@@ -32,5 +32,5 @@ public class Tarifa {
     @Column(name = "MONTO_KM")
     private double montoKm;
     @Column(name = "MONTO_HORA")
-    private  double montoHora;
+    private double montoHora;
 }

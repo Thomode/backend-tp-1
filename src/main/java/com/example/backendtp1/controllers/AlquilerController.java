@@ -1,34 +1,37 @@
 package com.example.backendtp1.controllers;
 
+import com.example.backendtp1.dtos.AlquilerDTO;
+import com.example.backendtp1.entities.Alquiler;
 import com.example.backendtp1.entities.Estacion;
 import com.example.backendtp1.entities.Tarifa;
+import com.example.backendtp1.services.AlquilerService;
 import com.example.backendtp1.services.EstacionService;
 import com.example.backendtp1.services.TarifaService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.websocket.server.PathParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/client/alquiler")
 public class AlquilerController {
-    private final EstacionService estacionService;
-    private final TarifaService tarifaService;
+    private final AlquilerService alquilerService;
 
-    public  AlquilerController(EstacionService estacionService, TarifaService tarifaService) {
-        this.estacionService = estacionService;
-        this.tarifaService = tarifaService;
+    public AlquilerController(AlquilerService alquilerService) {
+        this.alquilerService = alquilerService;
+    }
+    @GetMapping
+    public List<Alquiler> getAlquileres(){
+        return alquilerService.getAll();
     }
 
-    @GetMapping("estaciones")
-    public List<Estacion> getEstaciones(){
-        return estacionService.getAll();
+    @PostMapping("iniciar/{idEstacionRetiro}")
+    public Alquiler iniciarAlquiler(@PathVariable int idEstacionRetiro){
+        return alquilerService.iniciarAlquiler(idEstacionRetiro);
     }
 
-
-    @GetMapping("tarifas")
-    public List<Tarifa> getTarifas () {
-        return tarifaService.getAll();
+    @PutMapping("finalizar")
+    public Alquiler finalizarAlquiler(@RequestBody AlquilerDTO alquilerDTO){
+        return alquilerService.finalizarAlquiler(alquilerDTO);
     }
 }

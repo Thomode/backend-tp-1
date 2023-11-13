@@ -13,8 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Alquiler {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     @Column(name = "ID_CLIENTE")
     private String idCliente;
@@ -22,22 +21,24 @@ public class Alquiler {
     @Column(name = "ESTADO")
     private int estado;
 
-    @Column(name = "ESTADO_RETIRO")
-    private int estadoRetiro;
+    @ManyToOne
+    @JoinColumn(name = "ESTACION_RETIRO")
+    private Estacion estacionRetiro;
 
-    @Column(name = "ESTADO_DEVOLUCION")
-    private int estadoDevolucion;
+    @ManyToOne
+    @JoinColumn(name = "ESTACION_DEVOLUCION")
+    private Estacion estacionDevolucion;
 
     @Column(name = "FECHA_HORA_RETIRO")
     private LocalDate fechaHoraRetiro;
 
     @Column(name = "FECHA_HORA_DEVOLUCION")
-    private LocalDate getFechaHoraDevolucion;
+    private LocalDate fechaHoraDevolucion;
 
     @Column(name = "MONTO")
     private double monto;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ID_TARIFA")
     private Tarifa tarifa;
 }
