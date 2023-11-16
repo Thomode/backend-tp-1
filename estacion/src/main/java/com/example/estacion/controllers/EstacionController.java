@@ -1,7 +1,6 @@
 package com.example.estacion.controllers;
 
 import com.example.estacion.dtos.EstacionDTO;
-import com.example.estacion.dtos.EstacionDistanciaDTO;
 import com.example.estacion.entities.Estacion;
 import com.example.estacion.services.EstacionService;
 import org.springframework.http.ResponseEntity;
@@ -29,19 +28,22 @@ public class EstacionController {
     }
 
     @GetMapping("distanciaEntreEstaciones")
-    public EstacionDistanciaDTO calcular(@RequestParam Long idEstacionRetiro, @RequestParam Long idEstacionDevolucion){
-        EstacionDistanciaDTO estacionDistanciaDTO = new EstacionDistanciaDTO();
-        estacionDistanciaDTO.setDistancia(this.estacionService.getDistanciaEstaciones(idEstacionRetiro,idEstacionDevolucion));
-
-        return estacionDistanciaDTO;
+    public Double distanciaEntreEstaciones(@RequestParam Long idEstacionRetiro, @RequestParam Long idEstacionDevolucion){
+        return this.estacionService.getDistanciaEstaciones(idEstacionRetiro,idEstacionDevolucion);
     }
 
     @PostMapping
-    public Estacion add(@RequestBody EstacionDTO estacionDTO){
-        return estacionService.save(estacionDTO);
+    public ResponseEntity<Estacion> add(@RequestBody EstacionDTO estacionDTO){
+        Estacion estacion = estacionService.save(estacionDTO);
+
+        if(estacion == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(estacion);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{idEstacion}")
     public ResponseEntity<Estacion> getById(@PathVariable Long idEstacion){
         Estacion estacion = estacionService.getById(idEstacion);
 

@@ -2,6 +2,7 @@ package com.example.estacion.services.Impl;
 
 import com.example.estacion.dtos.*;
 import com.example.estacion.entities.Estacion;
+import com.example.estacion.expections.ResourseNoContentException;
 import com.example.estacion.repositories.EstacionRepository;
 import com.example.estacion.services.EstacionService;
 import org.springframework.stereotype.Service;
@@ -61,13 +62,13 @@ public class EstacionServiceImpl implements EstacionService {
         Estacion estacionRetiro = this.getById(idEstacionRetiro);
 
         if(estacionRetiro == null){
-            throw new RuntimeException("Estacion retiro no encontrada");
+            throw new ResourseNoContentException("Estacion retiro no encontrada");
         }
 
         Estacion estacionDevolucion = this.getById(idEstacionDevolucion);
 
         if(estacionDevolucion == null){
-            throw new RuntimeException("Estacion devolucion no encontrada");
+            throw new ResourseNoContentException("Estacion devolucion no encontrada");
         }
 
         return this.calcularDistanciaEntreDosPuntosKm(
@@ -76,16 +77,9 @@ public class EstacionServiceImpl implements EstacionService {
                 estacionDevolucion.getLatitud(),
                 estacionDevolucion.getLongitud());
     }
-
-    private double calcularDistanciaEntreDosPuntosKm(double latitud, double longitud, double latitud1, double longitud1) {
-        double radioTierra = 6371; //en kilómetros
-        double dLat = Math.toRadians(latitud1 - latitud);
-        double dLng = Math.toRadians(longitud1 - longitud);
-        double sindLat = Math.sin(dLat / 2);
-        double sindLng = Math.sin(dLng / 2);
-        double va1 = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
-                * Math.cos(Math.toRadians(latitud)) * Math.cos(Math.toRadians(latitud1));
-        double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));
-        return radioTierra * va2;
+    public Double calcularDistanciaEntreDosPuntosKm(Double lat1, Double lon1, Double lat2, Double lon2){
+        double deltaLat = lat2 - lat1;
+        double deltaLon = lon2 - lon1;
+        return Math.sqrt(Math.pow(deltaLat*110000, 2) + Math.pow(deltaLon*110000, 2)) / 1000;
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @NoArgsConstructor
 public class EstacionServiceComunicacion {
-    private final String baseUrl = "http://localhost:4002";
+    private final String baseUrl = "http://localhost:4001";
     WebClient.Builder webClient = WebClient.builder();
     public EstacionResponseDto getById(Long id) {
         return webClient.baseUrl(baseUrl)
@@ -18,15 +18,15 @@ public class EstacionServiceComunicacion {
                 .block();
     }
 
-    public Double getDistanciaEstaciones(Long idEstacion1, Long idEstacion2) {
+    public Double getDistanciaEstaciones(Long idEstacionRetiro, Long idEstacionDevolucion) {
         return webClient.baseUrl(baseUrl)
                 .build()
                 .get()
                 .uri(uriBuilder ->
                         uriBuilder
                                 .path("/api/client/estacion/distanciaEntreEstaciones")
-                                .queryParam("idEstacion1", idEstacion1)
-                                .queryParam("idEstacion2", idEstacion2)
+                                .queryParam("idEstacionRetiro", idEstacionRetiro)
+                                .queryParam("idEstacionDevolucion", idEstacionDevolucion)
                                 .build()
                 )
                 .retrieve()

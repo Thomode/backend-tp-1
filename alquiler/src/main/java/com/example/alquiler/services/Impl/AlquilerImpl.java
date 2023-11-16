@@ -3,6 +3,8 @@ package com.example.alquiler.services.Impl;
 import com.example.alquiler.controllers.EstacionServiceComunicacion;
 import com.example.alquiler.dtos.*;
 import com.example.alquiler.entities.*;
+import com.example.alquiler.expections.ResourseConflictException;
+import com.example.alquiler.expections.ResourseNoContentException;
 import com.example.alquiler.repositories.AlquilerRepository;
 import com.example.alquiler.services.*;
 import com.example.alquiler.services.utils.CalculoMonto;
@@ -38,13 +40,13 @@ public class AlquilerImpl implements AlquilerService {
         EstacionResponseDto estacionRetiro = this.estacionServiceComunicacion.getById(alquilerInicioDTO.getEstacion_retiro());
 
         if (estacionRetiro == null) {
-            throw new RuntimeException("No existe la estacion");
+            throw new ResourseNoContentException("No existe la estacion");
         }
 
         Tarifa tarifa = tarifaService.getById(alquilerInicioDTO.getTarifaId());
 
         if(tarifa == null) {
-            throw  new RuntimeException("No existe la tarifa");
+            throw  new ResourseNoContentException("No existe la tarifa");
         }
 
         Alquiler alquiler = new Alquiler();
@@ -66,16 +68,16 @@ public class AlquilerImpl implements AlquilerService {
         EstacionResponseDto estacionDevolucion = this.estacionServiceComunicacion.getById(alquilerFinDTO.getIdEstacionDevolucion());
 
         if (estacionDevolucion == null) {
-            throw new RuntimeException("No existe la estacion");
+            throw new ResourseNoContentException("No existe la estacion");
         }
 
         Alquiler alquiler = this.getById(alquilerFinDTO.getIdAlquiler());
         if (alquiler == null) {
-            throw new RuntimeException("No existe el alquiler");
+            throw new ResourseNoContentException("No existe el alquiler");
         }
 
         if(alquiler.getEstado() == 2){
-            throw new RuntimeException("El alquiler esta finalizado");
+            throw new ResourseNoContentException("El alquiler esta finalizado");
         }
 
         LocalDateTime fechaHoraDevolucion = LocalDateTime.now();
@@ -86,8 +88,8 @@ public class AlquilerImpl implements AlquilerService {
 
         double monto = CalculoMonto.calcular(
                 alquiler.getTarifa(),
-                this.estacionServiceComunicacion.getDistanciaEstaciones(
-                        alquiler.getIdEstacionRetiro(), alquiler.getIdEstacionDevolucion()),
+                this.estacionServiceComunicacion
+                        .getDistanciaEstaciones(alquiler.getIdEstacionRetiro(), alquiler.getIdEstacionDevolucion()),
                 alquiler.getFechaHoraRetiro(),
                 alquiler.getFechaHoraDevolucion()
         );

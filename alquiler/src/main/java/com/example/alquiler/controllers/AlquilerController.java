@@ -6,6 +6,7 @@ import com.example.alquiler.dtos.AlquilerFinDTO;
 import com.example.alquiler.dtos.AlquilerInicioDTO;
 import com.example.alquiler.entities.Alquiler;
 import com.example.alquiler.services.AlquilerService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,13 +26,25 @@ public class AlquilerController {
     }
 
     @PostMapping("iniciar")
-    public Alquiler iniciarAlquiler(@RequestBody AlquilerInicioDTO alquilerInicioDTO){
-        return alquilerService.iniciarAlquiler(alquilerInicioDTO);
+    public ResponseEntity<Alquiler> iniciarAlquiler(@RequestBody AlquilerInicioDTO alquilerInicioDTO){
+        Alquiler alquiler = alquilerService.iniciarAlquiler(alquilerInicioDTO);
+
+        if(alquiler == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(alquiler);
     }
 
     @PutMapping("finalizar")
-    public AlquilerDTO finalizarAlquiler(@RequestBody AlquilerFinDTO alquilerFinDTO){
-        return alquilerService.finalizarAlquiler(alquilerFinDTO);
+    public ResponseEntity<AlquilerDTO> finalizarAlquiler(@RequestBody AlquilerFinDTO alquilerFinDTO){
+        AlquilerDTO alquiler = alquilerService.finalizarAlquiler(alquilerFinDTO);
+
+        if(alquiler == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(alquiler);
     }
 
     @GetMapping("realizados")
