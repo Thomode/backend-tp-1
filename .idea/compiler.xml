@@ -7,21 +7,25 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="backend-tp-1 (1)" />
-        <module name="backend-tp-1 (2)" />
+        <module name="estacion" />
+        <module name="alquiler" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="apunte-api-gw-kempes" target="17" />
       <module name="backend-tp-1" target="17" />
+      <module name="backend-tp-1 (1)" target="1.5" />
+      <module name="backend-tp-1 (2)" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="alquiler" options="-parameters" />
       <module name="apunte-api-gw-kempes" options="-parameters" />
       <module name="backend-tp-1" options="-parameters" />
-      <module name="backend-tp-1 (1)" options="-parameters" />
-      <module name="backend-tp-1 (2)" options="-parameters" />
+      <module name="backend-tp-1 (1)" options="" />
+      <module name="backend-tp-1 (2)" options="" />
+      <module name="estacion" options="-parameters" />
     </option>
   </component>
 </project>
