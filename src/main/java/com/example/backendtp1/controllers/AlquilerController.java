@@ -1,15 +1,14 @@
 package com.example.backendtp1.controllers;
 
 import com.example.backendtp1.dtos.AlquilerDTO;
+import com.example.backendtp1.dtos.AlquilerFiltroDTO;
+import com.example.backendtp1.dtos.AlquilerFinDTO;
+import com.example.backendtp1.dtos.AlquilerInicioDTO;
 import com.example.backendtp1.entities.Alquiler;
-import com.example.backendtp1.entities.Estacion;
-import com.example.backendtp1.entities.Tarifa;
 import com.example.backendtp1.services.AlquilerService;
-import com.example.backendtp1.services.EstacionService;
-import com.example.backendtp1.services.TarifaService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,13 +24,18 @@ public class AlquilerController {
         return alquilerService.getAll();
     }
 
-    @PostMapping("iniciar/{idEstacionRetiro}")
-    public Alquiler iniciarAlquiler(@PathVariable int idEstacionRetiro){
-        return alquilerService.iniciarAlquiler(idEstacionRetiro);
+    @PostMapping("iniciar")
+    public Alquiler iniciarAlquiler(@RequestBody AlquilerInicioDTO alquilerInicioDTO){
+        return alquilerService.iniciarAlquiler(alquilerInicioDTO);
     }
 
     @PutMapping("finalizar")
-    public Alquiler finalizarAlquiler(@RequestBody AlquilerDTO alquilerDTO){
-        return alquilerService.finalizarAlquiler(alquilerDTO);
+    public AlquilerDTO finalizarAlquiler(@RequestBody AlquilerFinDTO alquilerFinDTO){
+        return alquilerService.finalizarAlquiler(alquilerFinDTO);
+    }
+
+    @GetMapping("filtrar")
+    public List<Alquiler> getAlquileresFinalizados(@RequestParam double montoInicio, @RequestParam double montoFin){
+        return alquilerService.getAlquileresFinalizados(montoInicio, montoFin);
     }
 }

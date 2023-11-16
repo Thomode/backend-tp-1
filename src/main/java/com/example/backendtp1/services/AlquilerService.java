@@ -1,10 +1,18 @@
 package com.example.backendtp1.services;
 
 import com.example.backendtp1.dtos.AlquilerDTO;
+import com.example.backendtp1.dtos.AlquilerFiltroDTO;
+import com.example.backendtp1.dtos.AlquilerFinDTO;
+import com.example.backendtp1.dtos.AlquilerInicioDTO;
 import com.example.backendtp1.entities.Alquiler;
 
-public interface AlquilerService extends Service<Alquiler, Integer> {
-    Alquiler iniciarAlquiler(int idEstacionRetiro);
+import java.time.LocalDateTime;
+import java.util.List;
 
-    Alquiler finalizarAlquiler(AlquilerDTO alquilerDTO);
+public interface AlquilerService {
+    Alquiler getById(Integer id);
+    List<Alquiler> getAll();
+    Alquiler iniciarAlquiler(AlquilerInicioDTO alquilerInicioDTO);
+    AlquilerDTO finalizarAlquiler(AlquilerFinDTO alquilerFinDTO);
+    List<Alquiler> getAlquileresFinalizados(double montoInicio, double montoFin);
 }

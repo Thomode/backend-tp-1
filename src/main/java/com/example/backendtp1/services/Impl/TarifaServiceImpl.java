@@ -16,26 +16,10 @@ public class TarifaServiceImpl implements TarifaService {
     }
 
     @Override
-    public Tarifa add(Tarifa entity) {
-        return null;
+    public Tarifa getById(Long id) {
+        return tarifaRespository.findById(id).orElse(null);
     }
 
-    @Override
-    public Tarifa update(Tarifa entity) {
-        return null;
-    }
-
-    @Override
-    public Tarifa delete(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public Tarifa getById(Long aLong) {
-        return null;
-    }
-
-    @Override
     public List<Tarifa> getAll() {
         return tarifaRespository.findAll();
     }

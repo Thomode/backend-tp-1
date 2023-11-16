@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Tarifa {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "TIPO_TARIFA")
     private int tipoTarifa;

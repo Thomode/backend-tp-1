@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Estacion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "NOMBRE")
